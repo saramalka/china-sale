@@ -10,6 +10,8 @@ namespace DL.Entities
         public string PasswordHash { get; set; }
         public Role Role { get; set; }
         public bool IsActive { get; set; }
+        public ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
+        public ICollection<Gift>? WonGifts { get; set; }
 
 
     }
