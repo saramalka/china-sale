@@ -1,0 +1,17 @@
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.csproj.AssemblyReference.cache
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.AssemblyInfoInputs.cache
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.AssemblyInfo.cs
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.csproj.CoreCompileInputs.cache
+C:\Users\me\Documents\שרי\china-sale\server\DL\bin\Debug\net7.0\DL.deps.json
+C:\Users\me\Documents\שרי\china-sale\server\DL\bin\Debug\net7.0\DL.dll
+C:\Users\me\Documents\שרי\china-sale\server\DL\bin\Debug\net7.0\DL.pdb
+C:\Users\me\Documents\שרי\china-sale\server\DL\bin\Debug\net7.0\common.dll
+C:\Users\me\Documents\שרי\china-sale\server\DL\bin\Debug\net7.0\common.pdb
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.csproj.CopyComplete
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.dll
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\refint\DL.dll
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.pdb
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\ref\DL.dll
+C:\Users\me\Documents\שרי\china-sale\server\DL\bin\Debug\net7.0\DL.runtimeconfig.json
+C:\Users\me\Documents\שרי\china-sale\server\DL\obj\Debug\net7.0\DL.genruntimeconfig.cache
