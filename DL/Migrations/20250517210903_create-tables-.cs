@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DL.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTables : Migration
+    public partial class createtables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,29 +27,41 @@ namespace DL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Donation",
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Donations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DonorId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    DonorId1 = table.Column<int>(type: "int", nullable: true)
+                    Amount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Donation", x => x.Id);
+                    table.PrimaryKey("PK_Donations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Donation_Donors_DonorId",
+                        name: "FK_Donations_Donors_DonorId",
                         column: x => x.DonorId,
                         principalTable: "Donors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Donation_Donors_DonorId1",
-                        column: x => x.DonorId1,
-                        principalTable: "Donors",
-                        principalColumn: "Id");
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,7 +73,6 @@ namespace DL.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DonorId = table.Column<int>(type: "int", nullable: false),
                     PricePerTicket = table.Column<int>(type: "int", nullable: false),
                     MyProperty = table.Column<int>(type: "int", nullable: false),
                     WinnerId = table.Column<int>(type: "int", nullable: true),
@@ -71,17 +82,11 @@ namespace DL.Migrations
                 {
                     table.PrimaryKey("PK_Gifts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Gifts_Donation_DonationId",
+                        name: "FK_Gifts_Donations_DonationId",
                         column: x => x.DonationId,
-                        principalTable: "Donation",
+                        principalTable: "Donations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Gifts_Donors_DonorId",
-                        column: x => x.DonorId,
-                        principalTable: "Donors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Gifts_Users_WinnerId",
                         column: x => x.WinnerId,
@@ -116,28 +121,18 @@ namespace DL.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Donation_DonorId",
-                table: "Donation",
+                name: "IX_Donations_DonorId",
+                table: "Donations",
                 column: "DonorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Donation_DonorId1",
-                table: "Donation",
-                column: "DonorId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gifts_DonationId",
                 table: "Gifts",
                 column: "DonationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Gifts_DonorId",
-                table: "Gifts",
-                column: "DonorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Gifts_WinnerId",
@@ -165,7 +160,10 @@ namespace DL.Migrations
                 name: "Gifts");
 
             migrationBuilder.DropTable(
-                name: "Donation");
+                name: "Donations");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Donors");

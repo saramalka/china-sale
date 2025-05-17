@@ -36,16 +36,11 @@ namespace DL.Migrations
                     b.Property<int>("DonorId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DonorId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DonorId");
 
-                    b.HasIndex("DonorId1");
-
-                    b.ToTable("Donation");
+                    b.ToTable("Donations");
                 });
 
             modelBuilder.Entity("DL.Entities.Donor", b =>
@@ -183,14 +178,10 @@ namespace DL.Migrations
             modelBuilder.Entity("DL.Entities.Donation", b =>
                 {
                     b.HasOne("DL.Entities.Donor", "Donor")
-                        .WithMany()
+                        .WithMany("Donations")
                         .HasForeignKey("DonorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("DL.Entities.Donor", null)
-                        .WithMany("Donations")
-                        .HasForeignKey("DonorId1");
 
                     b.Navigation("Donor");
                 });

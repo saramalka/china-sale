@@ -22,72 +22,42 @@ namespace DL
         {
             base.OnModelCreating(modelBuilder);
 
+            // Donation → Donor (אין cascade)
+            modelBuilder.Entity<Donation>()
+                .HasOne(d => d.Donor)
+                .WithMany(donor => donor.Donations)
+                .HasForeignKey(d => d.DonorId)
+                .OnDelete(DeleteBehavior.Restrict); // ❌ No Cascade
+
+            // Gift → Donation (אין cascade)
             modelBuilder.Entity<Gift>()
                 .HasOne(g => g.Donation)
                 .WithMany(d => d.Gifts)
                 .HasForeignKey(g => g.DonationId)
-                .OnDelete(DeleteBehavior.Restrict); // ❌ לא Cascade
+                .OnDelete(DeleteBehavior.Restrict); // ❌ No Cascade
 
+            // Gift → Winner (User) (אפשר SetNull)
             modelBuilder.Entity<Gift>()
                 .HasOne(g => g.Winner)
                 .WithMany(u => u.WonGifts)
                 .HasForeignKey(g => g.WinnerId)
-                .OnDelete(DeleteBehavior.SetNull); // ✅ Winner לא חייב להימחק
+                .OnDelete(DeleteBehavior.SetNull); // ✅ סביר
 
-            modelBuilder.Entity<Donation>()
-                .HasOne(d => d.Donor)
-                .WithMany() // אם אתה לא צריך קשר חזור אל Donor
-                .HasForeignKey(d => d.DonorId)
-                .OnDelete(DeleteBehavior.Restrict); // ❌ לא Cascade
-
+            // Purchase → User (אין cascade)
             modelBuilder.Entity<Purchase>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Purchases)
                 .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // ❌ לא Cascade
+                .OnDelete(DeleteBehavior.Restrict); // ❌ No Cascade
 
+            // Purchase → Gift (אפשר Cascade)
             modelBuilder.Entity<Purchase>()
                 .HasOne(p => p.Gift)
                 .WithMany(g => g.Purchases)
                 .HasForeignKey(p => p.GiftId)
-                .OnDelete(DeleteBehavior.Cascade); // ✅ רק כאן ניתן Cascade
+                .OnDelete(DeleteBehavior.Cascade); // ✅ מותר אחד כזה
         }
 
-
     }
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    base.OnModelCreating(modelBuilder);
-
-    //    modelBuilder.Entity<Gift>()
-    //        .HasOne(g => g.Donation)
-    //        .WithMany(d => d.Gifts)
-    //        .HasForeignKey(g => g.DonationId)
-    //        .OnDelete(DeleteBehavior.Restrict); // שינוי מ-Cascade ל-Restrict
-
-    //    modelBuilder.Entity<Gift>()
-    //        .HasOne(g => g.Winner)
-    //        .WithMany(u => u.WonGifts)
-    //        .HasForeignKey(g => g.WinnerId)
-    //        .OnDelete(DeleteBehavior.SetNull);
-
-    //    modelBuilder.Entity<Donation>()
-    //        .HasOne(d => d.Donor)
-    //        .WithMany()
-    //        .HasForeignKey(d => d.DonorId)
-    //        .OnDelete(DeleteBehavior.Restrict);
-
-    //    modelBuilder.Entity<Purchase>()
-    //        .HasOne(p => p.User)
-    //        .WithMany(u => u.Purchases)
-    //        .HasForeignKey(p => p.UserId)
-    //        .OnDelete(DeleteBehavior.Restrict);
-
-    //    modelBuilder.Entity<Purchase>()
-    //        .HasOne(p => p.Gift)
-    //        .WithMany(g => g.Purchases)
-    //        .HasForeignKey(p => p.GiftId)
-    //        .OnDelete(DeleteBehavior.Cascade); 
-    //}
 
 }
