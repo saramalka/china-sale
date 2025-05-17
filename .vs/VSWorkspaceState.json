@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\BLL\\Dto",
+    "\\BLL\\obj",
+    "\\BLL\\obj\\Debug",
+    "\\BLL\\Serverices",
+    "\\BLL\\Services",
+    "\\DL",
+    "\\server\\Controllers"
+  ],
+  "SelectedNode": "\\DL\\AppDbContext.cs",
+  "PreviewInSolutionExplorer": false
+}

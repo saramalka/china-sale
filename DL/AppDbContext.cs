@@ -22,40 +22,38 @@ namespace DL
         {
             base.OnModelCreating(modelBuilder);
 
-            // Donation → Donor (אין cascade)
+           
             modelBuilder.Entity<Donation>()
                 .HasOne(d => d.Donor)
                 .WithMany(donor => donor.Donations)
                 .HasForeignKey(d => d.DonorId)
-                .OnDelete(DeleteBehavior.Restrict); // ❌ No Cascade
+                .OnDelete(DeleteBehavior.Restrict); 
 
-            // Gift → Donation (אין cascade)
+            
             modelBuilder.Entity<Gift>()
                 .HasOne(g => g.Donation)
                 .WithMany(d => d.Gifts)
                 .HasForeignKey(g => g.DonationId)
-                .OnDelete(DeleteBehavior.Restrict); // ❌ No Cascade
-
-            // Gift → Winner (User) (אפשר SetNull)
+                .OnDelete(DeleteBehavior.Restrict);
+            
             modelBuilder.Entity<Gift>()
                 .HasOne(g => g.Winner)
                 .WithMany(u => u.WonGifts)
                 .HasForeignKey(g => g.WinnerId)
-                .OnDelete(DeleteBehavior.SetNull); // ✅ סביר
+                .OnDelete(DeleteBehavior.SetNull);
 
-            // Purchase → User (אין cascade)
+            
             modelBuilder.Entity<Purchase>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Purchases)
                 .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // ❌ No Cascade
-
-            // Purchase → Gift (אפשר Cascade)
+                .OnDelete(DeleteBehavior.Restrict);
+           
             modelBuilder.Entity<Purchase>()
                 .HasOne(p => p.Gift)
                 .WithMany(g => g.Purchases)
                 .HasForeignKey(p => p.GiftId)
-                .OnDelete(DeleteBehavior.Cascade); // ✅ מותר אחד כזה
+                .OnDelete(DeleteBehavior.Cascade); 
         }
 
     }
