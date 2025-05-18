@@ -15,15 +15,21 @@ namespace BLL.Services
         private readonly IPurchaseRepository purchaseRrpository;
         private readonly IMapper mapper;
 
+        public PurchaseService(IPurchaseRepository purchaseRrpository, IMapper mapper)
+        {
+            this.purchaseRrpository = purchaseRrpository;
+            this.mapper = mapper;       
+        }
+
         public async Task<IEnumerable<PurchaseDto>> GetAllAsync()
         {
-            var purchases=purchaseRrpository.GetAllAsync();
+            var purchases=await purchaseRrpository.GetAllAsync();
             return mapper.Map<IEnumerable<PurchaseDto>>(purchases);
         }
 
         public async Task<PurchaseDto?> GetByIdAsync(int id)
         {
-           var purchase=purchaseRrpository.GetByIdAsync(id);
+           var purchase=await purchaseRrpository.GetByIdAsync(id);
             return mapper.Map<PurchaseDto>(purchase);
 
         }
@@ -43,7 +49,6 @@ namespace BLL.Services
             if (purchase == null) return;
 
             purchase.Quantity = dto.Quantity;
-            purchase.Gift=dto.Gift;
             purchase.GiftId=dto.GiftId;
             purchase.UserId=dto.UserId;
             purchase.Date=dto.Date;

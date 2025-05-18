@@ -23,13 +23,13 @@ namespace BLL.Services
 
         public async Task<IEnumerable<DonorDto>> GetAllAsync()
         {
-            var donors = donorRepository.GetAllAsync();
+            var donors =await donorRepository.GetAllAsync();
             return mapper.Map<IEnumerable<DonorDto>>(donors);
         }
 
         public async Task<DonorDto> GetByIDAsync(int id)
         {
-            var donor = donorRepository.GetByIdAsync(id);
+            var donor =await donorRepository.GetByIdAsync(id);
             return mapper.Map<DonorDto>(donor);
         }
 
@@ -47,7 +47,7 @@ namespace BLL.Services
             donor.Email = donorDto.Email;
             donor.Id = donorDto.Id;
             donor.Phone = donorDto.Phone;
-            donor.Donations = donorDto.Donations;
+           
             donor.FullName = donorDto.FullName;
 
             await donorRepository.UpdateAsync(donor);

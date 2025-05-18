@@ -23,13 +23,13 @@ namespace BLL.Services
 
         public  async Task<IEnumerable<GiftDto>> GetAllAsync()
         {
-            var gifts= giftRepository.GetAllAsync();
+            var gifts=await giftRepository.GetAllAsync();
             return mapper.Map<IEnumerable<GiftDto>>(gifts);
         }
 
         public async Task<GiftDto> GetByIDAsync(int id)
         {
-            var gift = giftRepository.GetByIdAsync(id);             
+            var gift =await giftRepository.GetByIdAsync(id);             
             return mapper.Map<GiftDto>(gift);
         }
 
@@ -45,14 +45,12 @@ namespace BLL.Services
             if(gift==null) return;
 
             gift.Id= giftDto.Id;
-            gift.Purchases=giftDto.Purchases;
+       
             gift.Name = giftDto.Name;
             gift.Category = giftDto.Category;
             gift.Description = giftDto.Description;
-            gift.Donation= giftDto.Donation;
             gift.PricePerTicket= giftDto.PricePerTicket;
             gift.DonationId= giftDto.DonationId;
-            gift.Winner= giftDto.Winner;
             gift.WinnerId= giftDto.WinnerId;
 
             await giftRepository.UpdateAsync(gift);

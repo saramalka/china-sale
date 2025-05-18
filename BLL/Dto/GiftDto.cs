@@ -17,9 +17,8 @@ namespace BLL.Dto
         public int PricePerTicket { get; set; }
         public int MyProperty { get; set; }
         public int? WinnerId { get; set; }
-        public User? Winner { get; set; }
-        public int DonationId { get; set; }
-        public Donation Donation { get; set; }
-        public ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
+        public int? DonationId { get; set; }
+  
+       
     }
 }

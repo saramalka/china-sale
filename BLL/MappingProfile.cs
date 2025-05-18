@@ -14,10 +14,21 @@ namespace BLL
         public MappingProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<Donation,DonationDto>().ReverseMap();   
-            CreateMap<Donor,DonorDto>().ReverseMap();                           
-            CreateMap<Gift, GiftDto>().ReverseMap();        
-            CreateMap<Purchase, PurchaseDto>().ReverseMap();        
+            CreateMap<DonationDto,Donation>()
+                .ForMember(d=>d.Gifts,o=>o.Ignore())
+                .ForMember(d=>d.Donor,o=>o.Ignore())    
+                .ReverseMap();
+            CreateMap<DonorDto, Donor>().ForMember(dest => dest.Donations, opt => opt.Ignore()).ReverseMap();
+
+            CreateMap<Gift, GiftDto>().ReverseMap()
+                .ForMember(dest=>dest.Winner,opt=>opt.Ignore())
+                .ForMember(dest=>dest.Purchases,opt=>opt.Ignore())
+                .ForMember(d=>d.Donation,opt=>opt.Ignore()) 
+                .ReverseMap();        
+            CreateMap<PurchaseDto, Purchase>()
+                .ForMember(d=>d.User,o=>o.Ignore())
+                .ForMember(d=>d.Gift,o=>o.Ignore())
+                .ReverseMap();        
         }
     }
 }

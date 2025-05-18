@@ -18,6 +18,7 @@ namespace DL.Repositories
         public async Task<Gift> AddAsync(Gift gift)
         {
             await _context.Gifts.AddAsync(gift);
+            await _context.SaveChangesAsync();
             return gift;
         }
 
@@ -34,6 +35,7 @@ namespace DL.Repositories
         public async Task<IEnumerable<Gift>> GetAllAsync()
         {
             var gifts= await _context.Gifts.ToListAsync();
+           await _context.SaveChangesAsync();
             return gifts;                   
         }
 
