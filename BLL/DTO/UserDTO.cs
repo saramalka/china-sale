@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using common.enums;
 
-namespace BLL.DTO
+namespace BLL.Dto
 {
     public class UserDTO
     {

@@ -80,3 +80,5 @@ C:\Users\me\Documents\שרי\china-sale\server\server\obj\Debug\net7.0\server.dl
 C:\Users\me\Documents\שרי\china-sale\server\server\obj\Debug\net7.0\refint\server.dll
 C:\Users\me\Documents\שרי\china-sale\server\server\obj\Debug\net7.0\server.genruntimeconfig.cache
 C:\Users\me\Documents\שרי\china-sale\server\server\obj\Debug\net7.0\ref\server.dll
+C:\Users\me\Documents\שרי\china-sale\server\server\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\me\Documents\שרי\china-sale\server\server\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
