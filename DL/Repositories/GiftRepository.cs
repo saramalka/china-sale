@@ -10,7 +10,7 @@ namespace DL.Repositories
 {
     public class GiftRepository : IGiftRepository
     {
-        private AppDbContext _context;
+        private static readonly AppDbContext _context;
         public GiftRepository(AppDbContext context)
         {
             _context= context;
