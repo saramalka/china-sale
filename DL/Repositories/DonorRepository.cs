@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DL.Repositories
+namespace DL.Interfaces
 {
 
-    namespace DL.Repositories
+    namespace DL.Interfaces
     {
         public class DonorRepository : IDonorRepository
         {

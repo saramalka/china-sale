@@ -1,18 +1,20 @@
 ﻿using common.enums;
+using System.Net.Sockets;
 namespace DL.Entities
 {
-    public class User
-    {
-        public int Id { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string PasswordHash { get; set; }
-        public Role Role { get; set; }
-        public bool IsActive { get; set; }
-        public ICollection<Purchase> Purchases { get; set; } = new List<Purchase>();
-        public ICollection<Gift>? WonGifts { get; set; }
+   
+        public class User
+        {
+            public int Id { get; set; }
+            public string Fullname { get; set; }
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string Email { get; set; }
+            public string? phone { get; set; }
+            public UserRole Role { get; set; } = UserRole.User;
 
+            public List<Ticket> Tickets { get; set; }
+        }
 
-    }
+    
 }

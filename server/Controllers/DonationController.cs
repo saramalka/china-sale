@@ -29,14 +29,14 @@ namespace server.Controllers
             }
 
             [HttpPost]
-            public async Task<IActionResult> Create(DonationDto dto)
+            public async Task<IActionResult> Create(TicketDto dto)
             {
                 var created = await _service.CreateAsync(dto);
                 return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
             }
 
             [HttpPut("{id}")]
-            public async Task<IActionResult> Update(int id, DonationDto dto)
+            public async Task<IActionResult> Update(int id, TicketDto dto)
             {
                 await _service.UpdateAsync(id, dto);
                 return NoContent();

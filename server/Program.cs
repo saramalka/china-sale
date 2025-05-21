@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using DL;
 using BLL;
 using DL.Repositories.DL.Repositories;
+using DL.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

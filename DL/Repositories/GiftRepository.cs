@@ -1,4 +1,5 @@
 ﻿using DL.Entities;
+using DL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,6 @@ namespace DL.Repositories
         public async Task<IEnumerable<Gift>> GetAllAsync()
         {
             var gifts= await _context.Gifts.ToListAsync();
-           await _context.SaveChangesAsync();
             return gifts;                   
         }
 

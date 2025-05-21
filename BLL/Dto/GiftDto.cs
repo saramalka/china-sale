@@ -1,24 +1,13 @@
-﻿using DL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BLL.Dto
+﻿namespace server.Models.DTO
 {
     public class GiftDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string? Description { get; set; }
-        public string Category { get; set; }
-
-        public int PricePerTicket { get; set; }
-        public int MyProperty { get; set; }
+        public string GiftName { get; set; }
+        public int CategoryId { get; set; }
+        public int Price { get; set; }
+        public int DonorId { get; set; }
+        public string? Details { get; set; }
         public int? WinnerId { get; set; }
-        public int? DonationId { get; set; }
-  
-       
+        public string? ImageUrl { get; set; }
     }
 }

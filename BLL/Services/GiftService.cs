@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DL.Repositories;
 using AutoMapper;
 using BLL.Dto;
 using DL.Entities;
+using DL.Interfaces;
 
 namespace BLL.Services
 {

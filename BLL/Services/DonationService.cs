@@ -21,25 +21,25 @@ namespace BLL.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<DonationDto>> GetAllAsync()
+        public async Task<IEnumerable<TicketDto>> GetAllAsync()
         {
             var donations =await donationRepository.GetAllAsync();
-            return mapper.Map<IEnumerable<DonationDto>>(donations);
+            return mapper.Map<IEnumerable<TicketDto>>(donations);
         }
 
-        public async Task<DonationDto> GetByIDAsync(int id)
+        public async Task<TicketDto> GetByIDAsync(int id)
         {
             var donation =await donationRepository.GetByIdAsync(id);
-            return mapper.Map<DonationDto>(donation);
+            return mapper.Map<TicketDto>(donation);
         }
 
-        public async Task<DonationDto> CreateAsync(DonationDto donationDto)
+        public async Task<TicketDto> CreateAsync(TicketDto donationDto)
         {
             var donation = mapper.Map<Donation>(donationDto);
             var created = await donationRepository.AddAsync(donation);
-            return mapper.Map<DonationDto>(created);
+            return mapper.Map<TicketDto>(created);
         }
-        public async Task UpdateAsync(int id, DonationDto donationDto)
+        public async Task UpdateAsync(int id, TicketDto donationDto)
         {
             var donation = await donationRepository.GetByIdAsync(id);
             if (donation == null) return;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BLL.Dto;
 using DL.Entities;
-using DL.Repositories;
+using DL.Interfaces;
 
 namespace BLL.Services
 {

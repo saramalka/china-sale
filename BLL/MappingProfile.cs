@@ -14,7 +14,7 @@ namespace BLL
         public MappingProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<DonationDto,Donation>()
+            CreateMap<TicketDto,Donation>()
                 .ForMember(d=>d.Gifts,o=>o.Ignore())
                 .ForMember(d=>d.Donor,o=>o.Ignore())    
                 .ReverseMap();

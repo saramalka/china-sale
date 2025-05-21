@@ -15,3 +15,4 @@ C:\Users\me\Documents\שרי\china-sale\server\BLL\obj\Debug\net7.0\BLL.dll
 C:\Users\me\Documents\שרי\china-sale\server\BLL\obj\Debug\net7.0\refint\BLL.dll
 C:\Users\me\Documents\שרי\china-sale\server\BLL\obj\Debug\net7.0\BLL.pdb
 C:\Users\me\Documents\שרי\china-sale\server\BLL\obj\Debug\net7.0\ref\BLL.dll
+C:\Users\me\Documents\שרי\china-sale\server\BLL\obj\Debug\net7.0\BLL.sourcelink.json

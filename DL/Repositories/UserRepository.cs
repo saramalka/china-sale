@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using DL.Interfaces;
 
 
 
@@ -23,6 +24,11 @@ namespace DL.Repositories
 
         public async Task<User?> GetByIdAsync(int id)
             => await _context.Users.FindAsync(id);
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        }
 
         public async Task<User> AddAsync(User user)
         {
