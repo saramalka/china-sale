@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL.Dto;
+using common.Dto;
 using DL.Entities;
 using DL.Repositories;
 using System;
@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DL.Interfaces;
+
 
 namespace BLL.Services
 {
@@ -20,42 +22,29 @@ namespace BLL.Services
             this.donorRepository = donorRepository;
             this.mapper = mapper;
         }
-
-        public async Task<IEnumerable<DonorDto>> GetAllAsync()
+        public async Task<IEnumerable<DonorDto>> Get()
         {
-            var donors =await donorRepository.GetAllAsync();
-            return mapper.Map<IEnumerable<DonorDto>>(donors);
+            return await donorRepository.Get();
         }
-
-        public async Task<DonorDto> GetByIDAsync(int id)
+        public async Task<DonorDto> Get(int id)
         {
-            var donor =await donorRepository.GetByIdAsync(id);
-            return mapper.Map<DonorDto>(donor);
+            return await donorRepository.Get(id);
         }
-
-        public async Task<DonorDto> CreateAsync(DonorDto donorDto)
+        public async Task Add(Donor donor)
         {
-            var donor = mapper.Map<Donor>(donorDto);
-            var created = await donorRepository.AddAsync(donor);
-            return mapper.Map<DonorDto>(created);
+            await donorRepository.Add(donor);
         }
-        public async Task UpdateAsync(int id, DonorDto donorDto)
+        public async Task Update(int id, DonorDto donorDto)
         {
-            var donor = await donorRepository.GetByIdAsync(id);
-            if (donor == null) return;
-
-            donor.Email = donorDto.Email;
-            donor.Id = donorDto.Id;
-            donor.Phone = donorDto.Phone;
-           
-            donor.FullName = donorDto.FullName;
-
-            await donorRepository.UpdateAsync(donor);
+            await donorRepository.Update(id, donorDto);
         }
-
-        public async Task DeleteAsync(int id)
+        public async Task Delete(int id)
         {
-            await donorRepository.DeleteAsync(id);
+            await donorRepository.Delete(id);
+        }
+        public async Task<IEnumerable<DonorDto>> Search(string name = null, string email = null, string giftName = null)
+        {
+            return await donorRepository.Search(name, email, giftName);
         }
     }
 }

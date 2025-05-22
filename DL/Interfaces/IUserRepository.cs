@@ -13,6 +13,7 @@ namespace DL.Interfaces
         Task<User?> GetByIdAsync(int id);
         Task<User> GetUserByUsername(string username);
         Task<User> AddAsync(User user);
+        Task<User> GetUserFromToken();
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
     }

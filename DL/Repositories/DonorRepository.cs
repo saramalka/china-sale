@@ -1,4 +1,7 @@
-﻿using DL.Entities;
+﻿using AutoMapper;
+using common.Dto;
+using DL.Entities;
+using DL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,55 +9,113 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DL.Interfaces
-{
 
-    namespace DL.Interfaces
+    namespace DL.Repositories
     {
         public class DonorRepository : IDonorRepository
-        {
+    {
             private readonly AppDbContext _context;
-
-            public DonorRepository(AppDbContext context)
+            private readonly IMapper _mapper;
+            public DonorRepository(AppDbContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<Donor> AddAsync(Donor donor)
+            public async Task Add(Donor donor)
             {
-                await _context.Donors.AddAsync(donor);
-                await _context.SaveChangesAsync();
-                return donor;
-            }
-
-            public async Task<IEnumerable<Donor>> GetAllAsync()
-            {
-                return await _context.Donors.ToListAsync();
-            }
-
-            public async Task<Donor?> GetByIdAsync(int id)
-            {
-                return await _context.Donors.FindAsync(id);
-            }
-
-            public async Task UpdateAsync(Donor donor)
-            {
-                _context.Donors.Update(donor);
+                _context.Donors.Add(donor);
                 await _context.SaveChangesAsync();
             }
 
-            public async Task DeleteAsync(int id)
+            public async Task Delete(int id)
             {
                 var donor = await _context.Donors.FindAsync(id);
-                if (donor != null)
+                if (donor == null)
                 {
-                    _context.Donors.Remove(donor);
+                    throw new KeyNotFoundException($"Donor with ID {id} not found.");
+                }
+
+                _context.Donors.Remove(donor);
+                await _context.SaveChangesAsync();
+
+            }
+
+            public async Task<List<DonorDto>> Get()
+            {
+                var donors = await _context.Donors
+                    .Include(d => d.Gifts)
+                    .ToListAsync();
+                if (donors == null || !donors.Any())
+                {
+                    throw new InvalidOperationException("No donors found.");
+                }
+
+                var donorDtos = _mapper.Map<List<DonorDto>>(donors);
+                return donorDtos;
+            }
+
+            public async Task<DonorDto> Get(int id)
+            {
+                var donor = await _context.Donors
+                    .Include(d => d.Gifts)
+                    .FirstOrDefaultAsync(d => d.Id == id);
+
+                if (donor == null)
+                {
+                    throw new KeyNotFoundException($"Donor with ID {id} not found.");
+                }
+
+                var donorDto = _mapper.Map<DonorDto>(donor);
+                return donorDto;
+            }
+
+            public async Task Update(int id, DonorDto donorDto)
+            {
+                var existingDonor = await _context.Donors.FindAsync(id);
+                if (existingDonor == null)
+                {
+                    throw new KeyNotFoundException($"Donor with ID {id} not found.");
+                }
+                if (existingDonor != null)
+                {
+                    existingDonor.Name = donorDto.Name;
+                    existingDonor.Email = donorDto.Email;
+                    existingDonor.ShowMe = donorDto.ShowMe;
+
+                    _context.Donors.Update(existingDonor);
                     await _context.SaveChangesAsync();
                 }
             }
 
+            public async Task<List<DonorDto>> Search(string name = null, string email = null, string giftName = null)
+            {
+                var query = _context.Donors
+                    .Include(d => d.Gifts)
+                    .AsQueryable();
 
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    query = query.Where(d => d.Name.Contains(name));
+                }
+
+                if (!string.IsNullOrWhiteSpace(email))
+                {
+                    query = query.Where(d => d.Email.Contains(email));
+                }
+
+                if (!string.IsNullOrWhiteSpace(giftName))
+                {
+                    query = query.Where(d => d.Gifts.Any(g => g.GiftName.Contains(giftName)));
+                }
+                var donors = await query.ToListAsync();
+                if (donors == null || !donors.Any())
+                {
+                    throw new InvalidOperationException("No donors match the search criteria.");
+                }
+                var donorDtos = _mapper.Map<List<DonorDto>>(donors);
+                return donorDtos;
+            }
         }
 
     }
-}

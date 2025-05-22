@@ -1,7 +1,10 @@
-﻿using BLL.Services;
+﻿using AutoMapper;
+using common.Dto;
+using BLL.Services;
+using DL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BLL.Dto;
 
 
 namespace server.Controllers
@@ -10,43 +13,152 @@ namespace server.Controllers
     [Route("api/[controller]")]
     public class DonorsController : ControllerBase
     {
-        private readonly DonorService _service;
-
-        public DonorsController(DonorService service)
+        private readonly DonorService _donorService;
+        private readonly IMapper _mapper;
+        public DonorsController(DonorService donorService, IMapper mapper)
         {
-            _service = service;
+            _donorService = donorService;
+            _mapper = mapper;
+        }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var donors = await _donorService.Get();
+                return Ok(donors);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "server error");
+            }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-            => Ok(await _service.GetAllAsync());
-
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Get(int id)
         {
-            var donor = await _service.GetByIDAsync(id);
-            return donor == null ? NotFound() : Ok(donor);
+            try
+            {
+                var donor = await _donorService.Get(id);
+                return Ok(donor);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "server error");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] DonorDto dto)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Add([FromBody] DonorDto donorDto)
         {
-            var created = await _service.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            try
+            {
+                if (donorDto == null)
+                {
+                    return BadRequest("Donor data cannot be null.");
+                }
+
+                var donor = _mapper.Map<Donor>(donorDto);
+                await _donorService.Add(donor);
+                return CreatedAtAction(nameof(Get), new { id = donor.Id }, donor);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "server error");
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] DonorDto dto)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, [FromBody] DonorDto donorDto)
         {
-            await _service.UpdateAsync(id, dto);
-            return NoContent();
+            try
+            {
+                if (donorDto == null)
+                {
+                    return BadRequest("Donor data cannot be null.");
+                }
+
+                var existingDonor = await _donorService.Get(id);
+                if (existingDonor == null)
+                {
+                    return NotFound($"Donor with ID {id} not found.");
+                }
+
+                await _donorService.Update(id, donorDto);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "server error");
+            }
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _service.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                var existingDonor = await _donorService.Get(id);
+                if (existingDonor == null)
+                {
+                    return NotFound($"Donor with ID {id} not found.");
+                }
+
+                await _donorService.Delete(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "server error");
+            }
+        }
+
+        [HttpGet("search")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Search(string name = null, string email = null, string giftName = null)
+        {
+            try
+            {
+                var donors = await _donorService.Search(name, email, giftName);
+                return Ok(donors);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "server error");
+            }
         }
     }
 
