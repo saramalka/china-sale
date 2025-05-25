@@ -22,7 +22,7 @@ namespace BLL.Services
             this.giftRepository = giftRepository;
         }
 
-        public async Task<IEnumerable<Gift>> Get()
+        public async Task<IEnumerable<GiftDto>> Get()
         {
             return await giftRepository.Get();
         }

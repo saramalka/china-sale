@@ -396,7 +396,8 @@
             "format": "int32"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -409,10 +410,12 @@
             "format": "int32"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "showMe": {
             "type": "boolean"
@@ -421,7 +424,8 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Gift"
-            }
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -430,10 +434,12 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "showMe": {
             "type": "boolean"
@@ -449,7 +455,8 @@
             "format": "int32"
           },
           "giftName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "details": {
             "type": "string",
@@ -491,7 +498,8 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Ticket"
-            }
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -500,7 +508,8 @@
         "type": "object",
         "properties": {
           "giftName": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "categoryId": {
             "type": "integer",
@@ -534,10 +543,12 @@
         "type": "object",
         "properties": {
           "username": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -546,19 +557,24 @@
         "type": "object",
         "properties": {
           "fullname": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "username": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "phone": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -611,16 +627,20 @@
             "format": "int32"
           },
           "fullname": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "username": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "phone": {
             "type": "string",
@@ -633,7 +653,8 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Ticket"
-            }
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -646,6 +667,19 @@
         "type": "integer",
         "format": "int32"
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Enter 'Bearer' [space] and then your token in the text input below.\nExample: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

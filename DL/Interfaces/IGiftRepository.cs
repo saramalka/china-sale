@@ -11,7 +11,7 @@ namespace DL.Interfaces
 {
     public interface IGiftRepository
     {
-        Task<List<Gift>> Get();
+        Task<List<GiftDto>> Get();
         Task<Gift> Get(int id);
         Task Add(Gift gift);
         Task Update(int id, GiftDto gift);

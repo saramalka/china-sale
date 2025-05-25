@@ -21,7 +21,7 @@ namespace DL.Repositories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<List<Gift>> Get()
+        public async Task<List<GiftDto>> Get()
         {
             var gifts = await _context.Gifts
                 .Include(g => g.Category)
@@ -33,7 +33,7 @@ namespace DL.Repositories
             if (gifts == null || !gifts.Any())
                 throw new InvalidOperationException("No gifts found.");
 
-            return _mapper.Map<List<Gift>>(gifts);
+            return _mapper.Map<List<GiftDto>>(gifts);
         }
         public async Task<Gift> Get(int id)
         {
@@ -69,8 +69,8 @@ namespace DL.Repositories
             {
                 throw new InvalidOperationException("Gift with this name already exists.");
             }
-
-            await _context.Gifts.AddAsync(gift);
+            var giftDB=_mapper.Map<Gift>(gift);
+            await _context.Gifts.AddAsync(giftDB);
             await _context.SaveChangesAsync();
         }
         public async Task Update(int id, GiftDto gift)
