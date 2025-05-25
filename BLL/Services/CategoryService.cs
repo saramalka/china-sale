@@ -1,5 +1,6 @@
 ﻿using BLL.Interfaces;
 using DL.Entities;
+using DL.Interfaces;
 using DL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace BLL.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly CategoryRepository _categoryRepository;
-        public CategoryService(CategoryRepository categoryRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }                    
@@ -40,6 +41,7 @@ namespace BLL.Services
         public async Task<IEnumerable<Category>> Get()
         {
             var categories=await _categoryRepository.Get();
+            
             if(categories == null)
             {
                 throw new Exception("not found categories");

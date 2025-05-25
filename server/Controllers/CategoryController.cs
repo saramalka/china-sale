@@ -1,6 +1,7 @@
-﻿using BLL.Services;
+﻿using BLL.Interfaces;
 using DL;
 using DL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,12 @@ namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "manager")]
     public class CategoryController : ControllerBase
     {
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(CategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             _categoryService= categoryService;
         }
@@ -54,18 +56,12 @@ namespace server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
+            
             try
             {
-                await _categoryService.Add(category);
+                await _categoryService.Update(id,category);
             }
-            catch (DuplicateNameException)
-            {
-                return BadRequest("DuplicateNameException");
-            }
+            
             catch 
             {
                 throw;
@@ -78,12 +74,16 @@ namespace server.Controllers
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(int id,Category category)
+        public async Task<ActionResult<Category>> PostCategory(Category category)
         {
             try { 
 
-              await _categoryService.Update(id,category);
+              await _categoryService.Add(category);
               return CreatedAtAction("GetCategory", new { id = category.Id }, category);
+            }
+            catch (DuplicateNameException)
+            {
+                return BadRequest("DuplicateNameException");
             }
             catch
             {
@@ -111,17 +111,6 @@ namespace server.Controllers
             }
         }
 
-        private async Task<bool> CategoryExists(string name)
-        {
-            try
-            {
-                await _categoryService.NameExist(name);
-                return Ok();
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        
     }
 }

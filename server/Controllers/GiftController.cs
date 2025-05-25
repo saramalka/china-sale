@@ -26,13 +26,17 @@ namespace server.Controllers
             {
                 try
                 {
-                    var tasks = await _service.Get();
-                    return Ok(tasks);
+                    var gifts = await _service.Get();
+                    return Ok(gifts);
                 }
-                catch (Exception ex)
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
-                }
+                return StatusCode(500, "server error");
+            }
 
             }
             [HttpGet("{id}")]
@@ -43,9 +47,13 @@ namespace server.Controllers
                 var gift = await _service.Get(id);
                 return  Ok(gift);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex) 
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, "server error");
             }
                 
             }
@@ -88,20 +96,28 @@ namespace server.Controllers
                         return StatusCode(500, "server error");
                     }
             }
-        
 
-            //[HttpPut("{id}")]
-            //public async Task<IActionResult> Update(int id, [FromBody] GiftDto dto)
-            //{
-            //    await _service.UpdateAsync(id, dto);
-            //    return NoContent();
-            //}
 
-            //[HttpDelete("{id}")]
-            //public async Task<IActionResult> Delete(int id)
-            //{
-            //    await _service.DeleteAsync(id);
-            //    return NoContent();
-            //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] GiftDto dto)
+        {
+            try
+            {
+                await _service.Update(id, dto);
+                return NoContent();
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
+
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    await _service.DeleteAsync(id);
+        //    return NoContent();
+        //}
+    }
 }

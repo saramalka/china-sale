@@ -1,4 +1,5 @@
 using BLL;
+using BLL.Interfaces;
 using BLL.Services;
 using DL;
 using DL.Interfaces;
@@ -26,6 +27,10 @@ builder.Services.AddScoped<IDonorRepository, DonorRepository>();
 builder.Services.AddScoped<DonorService>();
 builder.Services.AddScoped<GiftService>();
 builder.Services.AddScoped<IGiftRepository, GiftRepository>();
+builder.Services.AddScoped<ICategoryService,CategoryService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
